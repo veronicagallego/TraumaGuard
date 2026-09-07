@@ -4,10 +4,13 @@
   "description": "API REST de consulta de protocolos para la atención inicial de lesiones traumatológicas en guardia.",
   "main": "src/server.js",
   "type": "module",
-  "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
-  },
+ "scripts": {
+  "start": "node src/server.js",
+  "dev": "node --watch src/server.js",
+  "catalogo:generar": "node src/scripts/generarCatalogo.js",
+  "catalogo:leer": "node src/scripts/leerCatalogo.js",
+  "sistema": "node src/scripts/diagnosticoSistema.js"
+},
   "keywords": [
     "api-rest",
     "traumatologia",
