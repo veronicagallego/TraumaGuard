@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const rutaArchivo = path.resolve(
@@ -7,15 +7,30 @@ const rutaArchivo = path.resolve(
   'catalogoTrauma.json'
 );
 
-const contenidoJSON = fs.readFileSync(rutaArchivo, 'utf-8');
+const leerCatalogo = async () => {
+  try {
+    const contenidoJSON = await readFile(rutaArchivo, 'utf-8');
+    const catalogo = JSON.parse(contenidoJSON);
 
-const catalogo = JSON.parse(contenidoJSON);
+    console.log('Nombre:', catalogo.nombre);
+    console.log('Versión:', catalogo.version);
+    console.log(
+      'Cantidad de categorías:',
+      catalogo.categorias.length
+    );
+    console.log('Categorías disponibles:');
 
-console.log('Nombre:', catalogo.nombre);
-console.log('Versión:', catalogo.version);
-console.log('Cantidad de categorías:', catalogo.categorias.length);
-console.log('Categorías disponibles:');
+    catalogo.categorias.forEach((categoria) => {
+      console.log(`- ${categoria.nombre}`);
+    });
+  } catch (error) {
+    console.error(
+      'No se pudo leer el catálogo:',
+      error.message
+    );
 
-catalogo.categorias.forEach((categoria) => {
-  console.log(`- ${categoria.nombre}`);
-});
+    process.exitCode = 1;
+  }
+};
+
+await leerCatalogo();
