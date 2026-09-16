@@ -1,6 +1,12 @@
-import regionesPorCategoria from '../data/regionesPorCategoria.js';
+import catalogo from '../models/Catalogo.js';
 
 // Devuelve todas las regiones agrupadas por categoría.
-export function listarRegiones(req, res) {
-  return res.status(200).json(regionesPorCategoria);
+export async function listarRegiones(req, res, next) {
+  try {
+    const regiones = await catalogo.obtenerRegiones();
+
+    return res.status(200).json(regiones);
+  } catch (error) {
+    return next(error);
+  }
 }
